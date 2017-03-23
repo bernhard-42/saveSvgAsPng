@@ -134,14 +134,15 @@
                 } else if (externalFontUrl.startsWith('./')) {
                   externalFontUrl = sheets[i].href + '/.' + externalFontUrl
                 }
-
-                fontsQueue.push({
-                  text: rule.cssText,
-                  // Pass url regex, so that once font is downladed, we can run `replace()` on it
-                  fontUrlRegexp: fontUrlRegexp,
-                  format: getFontMimeTypeFromUrl(externalFontUrl),
-                  url: externalFontUrl
-                });
+                if (externalFontUrl != "about:blank") { // handle MathJax_Blank font test , see https://github.com/mathjax/MathJax-docs/wiki/JavaScript-MathJax_Blank-font-error
+                  fontsQueue.push({
+                    text: rule.cssText,
+                    // Pass url regex, so that once font is downladed, we can run `replace()` on it
+                    fontUrlRegexp: fontUrlRegexp,
+                    format: getFontMimeTypeFromUrl(externalFontUrl),
+                    url: externalFontUrl
+                  });
+                }
               } else {
                 // otherwise, use previous logic
                 css += rule.cssText + '\n';
